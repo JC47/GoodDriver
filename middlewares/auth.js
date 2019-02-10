@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 
 // ==================
-// Verificar token
+// Verificar token usuario
 // ==================
 
-let verificaToken = (req,res,next) => {
+let verificaTokenUser = (req,res,next) => {
   let token = req.get('Authorization');
 
   jwt.verify (token, process.env.SEED, (err, decoded) => {
@@ -22,19 +22,24 @@ let verificaToken = (req,res,next) => {
 };
 
 // ==================
-// Verificar token  admin
+// Verificar token escuela
 // ==================
 
 let verificaTokenAdmin = (req,res,next) => {
-  let usuario = req.usuario;
-  if(usuario.role != "ADMIN_ROLE"){
-    return res.status(401).json({
-      ok:false,
-      err:{msg:"Usuario no autorizado"}
-    });
-  }
+  let token = req.get('Authorization');
 
-  next();
+  jwt.verify (token, process.env.SEED, (err, decoded) => {
+    if(err){
+      return res.status(401).json({
+        ok:false,
+        err
+      });
+    }
+
+    req.escuela = decoded.escuela;
+
+    next();
+  });
 };
 
 let verificaTokenImg = (req, res, next) => {
@@ -47,15 +52,12 @@ let verificaTokenImg = (req, res, next) => {
         err
       });
     }
-
-    req.usuario = decoded.usuario;
-
     next();
   });
 }
 
 module.exports = {
-  verificaToken,
+  verificaTokenUser,
   verificaTokenAdmin,
   verificaTokenImg
 }

@@ -3,7 +3,7 @@ const _ = require('underscore');
 const express = require('express');
 //Importaciones locales
 const Consejo = require('../models/consejo');
-const { verificaTokenEscuela ,verificaTokenEscuela2 } = require('../middlewares/auth');
+const { verificaTokenEscuela ,verificaTokenEscuela2, verificaTokenRoot } = require('../middlewares/auth');
 
 const app = express();
 
@@ -63,10 +63,12 @@ app.put('/update/:id', [verificaTokenEscuela, verificaTokenEscuela2], (req, res)
 
 });
 
-//Obtiene todos los consejos
+//Obtiene todos los consejos de esa escuela
 app.get('/all', [verificaTokenEscuela, verificaTokenEscuela2], (req,res) => {
 
-    Consejo.find({}).exec((err, consejos) => {
+    let idEscuela = req.escuela._id;
+
+    Consejo.find({idEscuela}).exec((err, consejos) => {
         if(err != null){
             return res.status(500).json({
                 ok: false,
@@ -82,7 +84,26 @@ app.get('/all', [verificaTokenEscuela, verificaTokenEscuela2], (req,res) => {
 
 });
 
-//Obtiene un consejo
+//Obtiene todos los consejos (solo root)
+app.get('/allroot', [verificaTokenEscuela, verificaTokenRoot], (req,res) => {
+
+    Consejo.find({}).populate('idEscuela', 'nombre').exec((err, consejos) => {
+        if(err != null){
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        res.json({
+            ok:true,
+            consejos
+        });
+    });
+    
+});
+
+//Obtiene un consejo de esa escuela
 app.get('/one/:id', [verificaTokenEscuela, verificaTokenEscuela2], (req,res) => {
 
     let id = req.params.id;

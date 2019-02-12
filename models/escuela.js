@@ -30,6 +30,10 @@ let escuelaSchema = new Schema({
     nickname: {
         type: String,
         required: true
+    },
+    qrcode: {
+        type: String,
+        required: true
     }
 });
 
@@ -38,6 +42,7 @@ escuelaSchema.methods.toJSON = function () {
   let escuelaObject = escuela.toObject();
 
   delete escuelaObject.secret;
+  delete escuelaObject.qrcode;
 
   return escuelaObject;
 }

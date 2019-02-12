@@ -3,7 +3,7 @@ const _ = require('underscore');
 const express = require('express');
 //Importaciones locales
 const Pregunta = require('../models/pregunta');
-const { verificaTokenEscuela ,verificaTokenEscuela2 } = require('../middlewares/auth');
+const { verificaTokenEscuela, verificaTokenEscuela2 } = require('../middlewares/auth');
 
 const app = express();
 

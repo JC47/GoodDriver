@@ -2,6 +2,8 @@
 const _ = require('underscore');
 const express = require('express');
 const speakeasy = require('speakeasy');
+const qrcode = require('qrcode');
+const jwt = require('jsonwebtoken');
 //Importaciones locales
 const Escuela = require('../models/escuela');
 const { verificaTokenEscuela ,verificaTokenEscuela2, verificaTokenRoot } = require('../middlewares/auth');
@@ -9,27 +11,31 @@ const { verificaTokenEscuela ,verificaTokenEscuela2, verificaTokenRoot } = requi
 const app = express();
 
 //Post para agregar una escuela
-app.post('/add', [verificaTokenEscuela, verificaTokenRoot], (req,res) => {
+app.post('/add', (req,res) => {
 
     let secret_aux = speakeasy.generateSecret({ length: 20 });
 
-    let escuela = new Escuela({
-        nickname: req.body.nickname,
-        nombre:req.body.nombre,
-        direccion:req.body.direccion,
-        secret:secret_aux.base32
-    });
+    qrcode.toDataURL(secret_aux.otpauth_url, (err,data) => {
 
-    escuela.save((err) => {
-        if(err != null){
-            return res.status(500).json({
-                ok: false,
-                err
+        let escuela = new Escuela({
+            nickname: req.body.nickname,
+            nombre: req.body.nombre,
+            direccion: req.body.direccion,
+            secret: secret_aux.base32,
+            qrcode: data
+        });
+
+        escuela.save((err) => {
+            if (err != null) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            res.json({
+                ok: true
             });
-        }
-
-        res.json({
-            ok:true
         });
     });
 
@@ -45,7 +51,7 @@ app.put('/update/:id', [verificaTokenEscuela, verificaTokenEscuela2], (req, res)
         if(err != null){
             return res.status(500).json({
                 ok: false,
-                err2
+                err
             });
         }
 
@@ -153,6 +159,44 @@ app.post('/login', (req,res) => {
             token
         });
     });
+});
+
+//Genera QR
+app.put('/qr/:id', [verificaTokenEscuela, verificaTokenRoot], (req,res) => {
+
+    let id = req.params.id;
+
+    let secret_aux = speakeasy.generateSecret({ length: 20 });
+
+    qrcode.toDataURL(secret_aux.otpauth_url, (err, data) => {
+
+        if(err != null){
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        let body = {
+            secret:secret_aux,
+            qrcode:data
+        }
+        
+        Escuela.findOneAndUpdate({_id:id}, body, (err2,escuela) => {
+            if(err2 != null){
+                return res.status(500).json({
+                    ok: false,
+                    err2
+                });
+            }
+
+            res.json({
+                ok:true,
+                escuela
+            });
+        });
+    });
+
 });
 
 

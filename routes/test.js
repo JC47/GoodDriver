@@ -3,7 +3,7 @@ const _ = require('underscore');
 const express = require('express');
 //Importaciones locales
 const Test = require('../models/test');
-const { verificaTokenEscuela ,verificaTokenEscuela2 } = require('../middlewares/auth');
+const { verificaTokenEscuela, verificaTokenEscuela2, verificaTokenRoot } = require('../middlewares/auth');
 
 const app = express();
 
@@ -66,7 +66,28 @@ app.put('/update/:id', [verificaTokenEscuela, verificaTokenEscuela2], (req, res)
 //Obtiene todos los tests
 app.get('/all', [verificaTokenEscuela, verificaTokenEscuela2], (req,res) => {
 
-    Test.find({}).exec((err, tests) => {
+    let idEscuela = req.escuela._id;
+
+    Test.find({idEscuela}).exec((err, tests) => {
+        if(err != null){
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        res.json({
+            ok:true,
+            tests
+        });
+    });
+
+});
+
+//Obtiene todas las reglas (solo root)
+app.get('/allroot', [verificaTokenEscuela, verificaTokenRoot], (req,res) => {
+
+    Test.find({}).populate('idEscuela', 'nombre').exec((err, tests) => {
         if(err != null){
             return res.status(500).json({
                 ok: false,

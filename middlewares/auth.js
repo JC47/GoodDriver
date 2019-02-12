@@ -25,7 +25,7 @@ let verificaTokenUser = (req,res,next) => {
 // Verificar token escuela
 // ==================
 
-let verificaTokenAdmin = (req,res,next) => {
+let verificaTokenEscuela = (req,res,next) => {
   let token = req.get('Authorization');
 
   jwt.verify (token, process.env.SEED, (err, decoded) => {
@@ -41,6 +41,32 @@ let verificaTokenAdmin = (req,res,next) => {
     next();
   });
 };
+
+let verificaTokenEscuela2 = (req, res, next) => {
+
+  let idescuela = req.body.idescuela != null ? req.body.idescuela : req.params.id;
+  
+  if(req.escuela._id != idescuela && req.escuela.tipo != 'ROOT'){
+    return res.status(401).json({
+      ok: false,
+      err: 'No autorizado'
+    });
+  }
+
+  next();
+}
+
+let verificaTokenRoot = (req, res, next) => {
+
+  if(req.escuela.tipo != 'ROOT'){
+    return res.status(401).json({
+      ok: false,
+      err: 'No autorizado'
+    });
+  }
+
+  next();
+}
 
 let verificaTokenImg = (req, res, next) => {
   let token = req.query.token;
@@ -58,6 +84,8 @@ let verificaTokenImg = (req, res, next) => {
 
 module.exports = {
   verificaTokenUser,
-  verificaTokenAdmin,
+  verificaTokenEscuela2,
+  verificaTokenEscuela,
+  verificaTokenRoot,
   verificaTokenImg
 }

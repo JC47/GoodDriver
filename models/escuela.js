@@ -21,12 +21,14 @@ let escuelaSchema = new Schema({
     },
     img: {
         type: String,
-        unique: true,
         default: 'school.png'
     },
-    curso: {
+    tipo: {
         type: String,
-        unique: true,
+        default: 'BASE'
+    },
+    nickname: {
+        type: String,
         required: true
     }
 });
@@ -35,7 +37,7 @@ escuelaSchema.methods.toJSON = function () {
   let escuela = this;
   let escuelaObject = escuela.toObject();
 
-  delete escuelaObject.curso;
+  delete escuelaObject.secret;
 
   return escuelaObject;
 }

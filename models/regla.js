@@ -17,7 +17,7 @@ let reglaSchema = new Schema({
         type: String,
         required: true
     },
-    tags: [{type: Strimg}]
+    tags: [{type: String}]
 
 });
 

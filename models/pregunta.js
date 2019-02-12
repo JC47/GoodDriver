@@ -10,7 +10,7 @@ let preguntaSchema = new Schema({
     },
     respuestas: [{
         respuesta: {type: String, required: true},
-        correcta: {type: boolean, required: true, default: false}
+        correcta: {type: Boolean, required: true, default: false}
     }]
 
 });

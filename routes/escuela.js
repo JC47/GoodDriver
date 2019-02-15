@@ -3,6 +3,8 @@ const _ = require('underscore');
 const express = require('express');
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
+const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 //Importaciones locales
 const Escuela = require('../models/escuela');
@@ -13,28 +15,42 @@ const app = express();
 //Post para agregar una escuela
 app.post('/add', (req,res) => {
 
-    let secret_aux = speakeasy.generateSecret({ length: 20 });
+    crypto.randomBytes(5, (err, buf) => {
+        if (err != null) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
 
-    qrcode.toDataURL(secret_aux.otpauth_url, (err,data) => {
+        qrcode.toDataURL(buf.toString('hex'), (err2, data) => {
 
-        let escuela = new Escuela({
-            nickname: req.body.nickname,
-            nombre: req.body.nombre,
-            direccion: req.body.direccion,
-            secret: secret_aux.base32,
-            qrcode: data
-        });
-
-        escuela.save((err) => {
-            if (err != null) {
+            if (err2 != null) {
                 return res.status(500).json({
                     ok: false,
-                    err
+                    err2
                 });
             }
 
-            res.json({
-                ok: true
+            let escuela = new Escuela({
+                nickname: req.body.nickname,
+                nombre: req.body.nombre,
+                direccion: req.body.direccion,
+                secret: bcrypt.hashSync(buf.toString('hex'), 10),
+                qrcode: data
+            });
+
+            escuela.save((err3) => {
+                if (err3 != null) {
+                    return res.status(500).json({
+                        ok: false,
+                        err3
+                    });
+                }
+
+                res.json({
+                    ok: true
+                });
             });
         });
     });
@@ -135,16 +151,9 @@ app.post('/login', (req,res) => {
                 err
             });
         }
-
-        let verified = speakeasy.totp.verify({
-            secret: escuela.secret,
-            encoding: 'base32',
-            token:tokenX
-        });
-        
-        if(!verified){
+        if (!bcrypt.compareSync(tokenX, escuela.secret)){
             return res.status(401).json({
-                ok:false,
+                ok: false,
                 err: "Token invalido o expirado"
             });
         }

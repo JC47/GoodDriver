@@ -1,7 +1,6 @@
 //Paquetes de node
 const _ = require('underscore');
 const express = require('express');
-const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
@@ -13,7 +12,7 @@ const { verificaTokenEscuela ,verificaTokenEscuela2, verificaTokenRoot } = requi
 const app = express();
 
 //Post para agregar una escuela
-app.post('/add', (req,res) => {
+app.post('/add', [verificaTokenEscuela, verificaTokenRoot] , (req,res) => {
 
     crypto.randomBytes(5, (err, buf) => {
         if (err != null) {
@@ -175,37 +174,43 @@ app.put('/qr/:id', [verificaTokenEscuela, verificaTokenRoot], (req,res) => {
 
     let id = req.params.id;
 
-    let secret_aux = speakeasy.generateSecret({ length: 20 });
-
-    qrcode.toDataURL(secret_aux.otpauth_url, (err, data) => {
-
-        if(err != null){
+    crypto.randomBytes(5, (err, buf) => {
+        if (err != null) {
             return res.status(500).json({
                 ok: false,
                 err
             });
         }
 
-        let body = {
-            secret:secret_aux,
-            qrcode:data
-        }
-        
-        Escuela.findOneAndUpdate({_id:id}, body, (err2,escuela) => {
-            if(err2 != null){
+        qrcode.toDataURL(buf.toString('hex'), (err2, data) => {
+            if (err2 != null) {
                 return res.status(500).json({
                     ok: false,
                     err2
                 });
             }
 
-            res.json({
-                ok:true,
-                escuela
+            let body = {
+                secret: bcrypt.hashSync(buf.toString('hex'), 10),
+                qrcode: data
+            }
+
+            Escuela.findOneAndUpdate({ _id: id }, body, (err3, escuela) => {
+                if (err3 != null) {
+                    return res.status(500).json({
+                        ok: false,
+                        err3
+                    });
+                }
+
+                res.json({
+                    ok: true,
+                    escuela
+                });
             });
         });
-    });
 
+    });
 });
 
 

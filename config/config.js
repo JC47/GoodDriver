@@ -22,10 +22,10 @@ process.env.SEED = process.env.SEED || 'este-es-el-seed';
 // ================================================
 let urlDB;
 
-if (process.env.NODE_ENV === "dev") {
-    urlDB = "mongodb://localhost:27017/gooddriver";
-}
-else {
+//if (process.env.NODE_ENV === "dev") {
+//    urlDB = "mongodb://localhost:27017/gooddriver";
+//}
+//else {
     urlDB = "mongodb://root:cornelio96@ds155150.mlab.com:55150/gooddriver";
-}
+//}
 process.env.URLDB = urlDB;

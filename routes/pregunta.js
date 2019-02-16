@@ -11,6 +11,7 @@ const app = express();
 app.post('/add', [verificaTokenEscuela, verificaTokenEscuela2], (req,res) => {
 
     let pregunta = new Pregunta({
+        idTest: req.body.idTest,
         cuestion: req.body.cuestion,
         respuestas: req.body.respuestas
     });

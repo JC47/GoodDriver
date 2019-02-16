@@ -4,6 +4,11 @@ let Schema = mongoose.Schema;
 
 let preguntaSchema = new Schema({
 
+    idTest: {
+        type: Schema.ObjectId,
+        ref: 'Test',
+        required: true
+    },
     cuestion: {
         type: String,
         required: true

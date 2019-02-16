@@ -29,7 +29,8 @@ let escuelaSchema = new Schema({
     },
     nickname: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     qrcode: {
         type: String,

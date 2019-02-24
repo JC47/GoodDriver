@@ -51,7 +51,7 @@ app.put('/update/:id', [verificaTokenEscuela, verificaTokenEscuela2], (req, res)
             if (err2 != null) {
                 return res.status(500).json({
                     ok: false,
-                    err2
+                    err: err2
                 });
             }
             res.json({

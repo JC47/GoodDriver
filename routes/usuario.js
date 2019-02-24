@@ -90,7 +90,7 @@ app.put('/join', [verificaTokenUser], (req,res) => {
     let idEscuela = req.body.idEscuela;
     let idUsuario = req.usuario._id;
 
-    Usuario.findOneAndUpdate({_id:idUsuario}, {$push: {cursos: idEscuela}}, (err) => {
+    Escuela.findOne({_id:idEscuela}).exec((err, escuela) => {
 
         if(err != null){
             return res.status(500).json({
@@ -99,20 +99,47 @@ app.put('/join', [verificaTokenUser], (req,res) => {
             });
         }
 
-        Usuario.findOne({_id:idUsuario}).populate('cursos', 'nombre').exec( (err2, usuario) => {
-            if(err2 != null){
-                return res.status(500).json({
-                       ok: false,
-                       err2
-                });
-            }
-
-            res.json({
-                ok:true,
-                usuario
+        if((escuela.alumn - 1) < 0){
+            return res.status(400).json({
+                ok:false,
+                err: "La escuela ya no permite más inscripciones"
             });
-        });
+        }
+        else{
+            escuela.alumn -= 1;
+            escuela.save((err2) => {
+                if (err2 != null) {
+                    return res.status(500).json({
+                        ok: false,
+                        err: err2
+                    });
+                }
+            });
 
+            Usuario.findOneAndUpdate({ _id: idUsuario }, { $push: { cursos: idEscuela } }, (err3) => {
+
+                if (err3 != null) {
+                    return res.status(500).json({
+                        ok: false,
+                        err: err3
+                    });
+                }
+
+                Usuario.findOne({ _id: idUsuario }).populate('cursos', 'nombre').exec((err4, usuario) => {
+                    if (err4 != null) {
+                        return res.status(500).json({
+                            ok: false,
+                            err: err4
+                        });
+                    }
+
+                    res.json({
+                        ok: true,
+                        usuario
+                    });
+                });
+            });
+        }
     });
 });
 
@@ -122,27 +149,47 @@ app.put('/leave', [verificaTokenUser], (req,res) => {
     let idEscuela = req.body.idEscuela;
     let idUsuario = req.usuario._id;
 
-    Usuario.findOne({_id:idUsuario}, (err, usuario) => {
-        if(err != null){
+    Escuela.findOne({ _id: idEscuela }).exec((err, escuela) => {
+        if (err != null) {
             return res.status(500).json({
                 ok: false,
                 err
             });
         }
 
-        usuario.cursos.remove(idEscuela);
+        escuela.alumn += 1;
 
-        usuario.save((err2, usuarioN) => {
-            if(err2 != null){
+        escuela.save(err2 => {
+            if (err2 != null) {
                 return res.status(500).json({
                     ok: false,
-                    err2
+                    err: err2
+                });
+            }
+        });
+
+        Usuario.findOne({ _id: idUsuario }, (err3, usuario) => {
+            if (err3 != null) {
+                return res.status(500).json({
+                    ok: false,
+                    err: err3
                 });
             }
 
-            res.json({
-                ok: true,
-                usuario: usuarioN
+            usuario.cursos.remove(idEscuela);
+
+            usuario.save((err4, usuarioN) => {
+                if (err4 != null) {
+                    return res.status(500).json({
+                        ok: false,
+                        err: err4
+                    });
+                }
+
+                res.json({
+                    ok: true,
+                    usuario: usuarioN
+                });
             });
         });
     });

@@ -35,6 +35,10 @@ let escuelaSchema = new Schema({
     qrcode: {
         type: String,
         required: true
+    },
+    alumn: {
+        type: Number,
+        default: 200
     }
 });
 

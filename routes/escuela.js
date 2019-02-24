@@ -27,7 +27,7 @@ app.post('/add', [verificaTokenEscuela, verificaTokenRoot] , (req,res) => {
             if (err2 != null) {
                 return res.status(500).json({
                     ok: false,
-                    err2
+                    err: err2
                 });
             }
 
@@ -43,7 +43,7 @@ app.post('/add', [verificaTokenEscuela, verificaTokenRoot] , (req,res) => {
                 if (err3 != null) {
                     return res.status(500).json({
                         ok: false,
-                        err3
+                        err: err3
                     });
                 }
 
@@ -186,7 +186,7 @@ app.put('/qr/:id', [verificaTokenEscuela, verificaTokenRoot], (req,res) => {
             if (err2 != null) {
                 return res.status(500).json({
                     ok: false,
-                    err2
+                    err: err2
                 });
             }
 

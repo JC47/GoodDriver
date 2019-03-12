@@ -1,0 +1,139 @@
+*{
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  font-family:arial;
+}
+
+.titulo{
+  margin-top:6%;
+  color:	#790903;
+  text-align:center;
+}
+
+.login-form{
+  width:20%;
+  padding:1% 2%;
+  background-color:#c1dbdb;
+  opacity: 0.7;
+  border-radius:4px;
+  -moz-border-radius:4px;
+  -webkit-border-radius:10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4%;
+  -webkit-box-shadow: 11px -4px 70px -1px rgba(0,0,0,0.54);
+  -moz-box-shadow: 11px -4px 70px -1px rgba(0,0,0,0.54);
+  box-shadow: 11px -4px 70px -1px rgba(0,0,0,0.54);
+
+}
+
+.img-log{
+  width: 80%;
+  display: block;
+  margin: auto;
+  margin-bottom: 8%;
+}
+.form-group{
+  position: relative;
+  margin-bottom:15px;
+}
+.form-control{
+  width:100%;
+  border:none;
+  padding:5px 7px 5px 15px;
+  background:#fff;
+  color:#666;
+  border:2px solid #E0D68F;
+  border-radius:4px;
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+}
+.form-control:focus, .form-control:focus + .fa{
+  border-color:#007CB9;
+  color:#007CB9;
+}
+.form-group .fa{
+  position: absolute;
+  right:15px;
+  top:17px;
+  color:#999;
+}
+.log-status.wrong-entry {
+  -webkit-animation: wrong-log 0.3s;
+  -moz-animation: wrong-log 0.3s;
+  -ms-animation: wrong-log 0.3s;
+  animation: wrong-log 0.3s;
+}
+.wrong-entry{
+  border-color: #ed1c24;
+  color: #ed1c24;
+}
+@keyframes wrong-log {
+  0% { left: 0px;}
+  20% {left: 15px;}
+  40% {left: -15px;}
+  60% {left: 15px;}
+  80% {left: -15px;}
+  100% {left: 0px;}
+}
+@-ms-keyframes wrong-log {
+  0% { left: 0px;}
+  20% {left: 15px;}
+  40% {left: -15px;}
+  60% {left: 15px;}
+  80% {left: -15px;}
+  100% {left: 0px;}
+}
+@-moz-keyframes wrong-log {
+  0% { left: 0px;}
+  20% {left: 15px;}
+  40% {left: -15px;}
+  60% {left: 15px;}
+  80% {left: -15px;}
+  100% {left: 0px;}
+}
+@-webkit-keyframes wrong-log {
+  0% { left: 0px;}
+  20% {left: 15px;}
+  40% {left: -15px;}
+  60% {left: 15px;}
+  80% {left: -15px;}
+  100% {left: 0px;}
+}
+.log-btn{
+  background:#690747;
+  display:inline-block;
+  width:100%;
+  font-size:20px;
+  color:#fff;
+  border-radius:4px;
+  padding: 4%;
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+}
+
+.link{
+  text-decoration:none;
+  color:#9D8E79;
+  display:block;
+  text-align:right;
+  font-size:12px;
+  margin-bottom:15px;
+}
+.link:hover{
+  text-decoration:underline;
+  color:#8C918F;
+}
+.alert{
+  color:#f00;
+  display: block;
+}
+
+.background{
+  background-image:url('../../../assets/img/login.jpeg');
+  overflow:hidden;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}

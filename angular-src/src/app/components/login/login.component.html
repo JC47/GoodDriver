@@ -13,7 +13,7 @@
       <div class="form-group log-status">
         <input type="password" class="form-control" placeholder="Token" formControlName="password">
       </div>
-      <i class="fa fa-refresh fast-spin"></i>
+      
       <span *ngIf="valid" class="alert" align="center">Usuario o Token incorrectos</span>
       <button type="submit" class="log-btn" [disabled]='loading'><span *ngIf="!loading">Enviar</span><span *ngIf="loading"><i class="fa fa-refresh fast-spin"></i></span></button>
 

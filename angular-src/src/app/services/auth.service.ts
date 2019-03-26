@@ -24,4 +24,15 @@ export class AuthService {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
+
+  isRoot() {
+    try {
+      const escuela = localStorage.getItem('escuela');
+      const escuelaObject = JSON.parse(escuela);
+      return escuelaObject.tipo === 'ROOT';
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
 }

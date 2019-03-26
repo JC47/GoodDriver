@@ -22,6 +22,12 @@ import { APP_ROUTING } from './app.routes';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { EscuelasComponent } from './components/escuelas/escuelas.component';
+import { ReglasComponent } from './components/reglas/reglas.component';
+import { ConsejosComponent } from './components/consejos/consejos.component';
+import { TestsComponent } from './components/tests/tests.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +35,13 @@ import { FooterComponent } from './components/shared/footer/footer.component';
     LoginComponent,
     HomeComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    UsuariosComponent,
+    EscuelasComponent,
+    ReglasComponent,
+    ConsejosComponent,
+    TestsComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,

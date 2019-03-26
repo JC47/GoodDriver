@@ -150,6 +150,14 @@ app.post('/login', (req,res) => {
                 err
             });
         }
+
+        if (!escuela) {
+            return res.status(500).json({
+                ok: false,
+                err: "Error en nickname"
+            });
+        }
+
         if (!bcrypt.compareSync(tokenX, escuela.secret)){
             return res.status(401).json({
                 ok: false,

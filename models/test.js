@@ -18,8 +18,7 @@ let testSchema = new Schema({
     },
     preguntas: [{
         type: Schema.ObjectId,
-        ref: 'Pregunta',
-        require: true
+        ref: 'Pregunta'
     }]
 });
 

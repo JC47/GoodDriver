@@ -9,6 +9,13 @@ import { LoginComponent } from './components/login/login.component';
 
 // Servicios
 import { AuthService } from './services/auth.service';
+import { ConsejoService } from './services/consejo.service';
+import { ReglaService } from './services/regla.service';
+import { EscuelaService } from './services/escuela.service';
+import { TestService } from './services/test.service';
+import { UsuarioService } from './services/usuario.service';
+import { PreguntaService } from './services/pregunta.service';
+
 
 // Interceptor
 import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
@@ -53,6 +60,12 @@ import { PerfilComponent } from './components/perfil/perfil.component';
   providers: [
     AuthService,
     AuthGuard,
+    ConsejoService,
+    ReglaService,
+    EscuelaService,
+    TestService,
+    UsuarioService,
+    PreguntaService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

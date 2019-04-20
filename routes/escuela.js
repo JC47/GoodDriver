@@ -100,7 +100,7 @@ app.get('/all', [verificaTokenEscuela, verificaTokenRoot], (req,res) => {
 app.get('/one/:id', [verificaTokenEscuela, verificaTokenEscuela2], (req,res) => {
 
     let id = req.params.id;
-    Escuela.find({_id:id}).exec((err, escuela) => {
+    Escuela.findOne({_id:id}).exec((err, escuela) => {
         if(err != null){
             return res.status(500).json({
                 ok: false,

@@ -28,4 +28,9 @@ export class EscuelaService {
     return this.http.delete(`${ApiUrl}/escuela/delete/${id}`).toPromise()
       .then(res => res).catch(err => err.error);
   }
+
+  meEscuela(id) {
+    return this.http.get(`${ApiUrl}/escuela/one/${id}`).toPromise()
+      .then(res => res).catch(err => err.error);
+  }
 }

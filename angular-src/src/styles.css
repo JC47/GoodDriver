@@ -38,3 +38,18 @@ body{
 .fadeIn {
   animation-name: fadeIn;
 }
+
+.center{
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.mgb{
+  margin-bottom: 5%;
+}
+
+.btn-margin{
+  margin-left: 5%;
+  margin-right: 5%;
+}

@@ -1,3 +1,40 @@
-<p>
-  perfil works!
-</p>
+<div class="container mgb">
+
+  <h1>
+    {{escuela.nombre}} <i class="fa fa-edit" (click)="edit()" style="cursor:pointer"></i>
+  </h1>
+
+  <hr>
+
+  <img src="../../../assets/img/gdicon.png" alt="" class="center img-perfil">
+
+  <form [formGroup]="profile" (ngSubmit)="editProfile()">
+  
+    <div class="form-group">
+      <label>Nickname </label>
+      <input type="text" class="form-control" formControlName="nickname">
+    </div>
+  
+    <div class="form-group">
+      <label for="tipo">Tipo </label>
+      <input id="tipo" type="text" class="form-control" [value]="escuela.tipo" [disabled]="true">
+    </div>
+
+    <div class="form-group">
+      <label>Dirección </label>
+      <input type="text" class="form-control" formControlName="direccion">
+    </div>
+
+    <div class="form-group">
+      <label for="alumn">Alumnos </label>
+      <input id="alumn" type="number" class="form-control" [value]="escuela.alumn" [disabled]="true">
+    </div>
+    
+    <div class="controls">
+      <button class="btn btn-outline-secondary" type="submit" [disabled]="editing">Editar</button>
+      <button type="button" class="btn btn-outline-danger btn-margin" (click)="cancel()" [disabled]="editing">Cancelar</button>
+    </div>
+    
+  </form>
+
+</div>

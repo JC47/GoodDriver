@@ -1,3 +1,33 @@
-<p>
-  usuarios works!
-</p>
+<div class="container mgb">
+
+  <h2 align="center">
+    Usuarios registrados
+  </h2>
+
+  <hr>
+
+  <table class="table table-hover mgt">
+    <thead class="thead-dark">
+      <tr>
+        <th></th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Contraseña</th>
+        <th>Editar</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{usuario.img}}</td>
+        <td>{{usuario.nombre}}</td>
+        <td>{{usuario.email}}</td>
+        <td><button>Perro</button></td>
+        <td>5</td>
+        <td>6</td>
+      </tr>
+    <tbody>
+
+    </tbody>
+  </table>
+
+</div>

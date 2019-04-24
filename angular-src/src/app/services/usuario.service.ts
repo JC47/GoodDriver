@@ -9,8 +9,8 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  getUsuarios() {
-    return this.http.get(`${ApiUrl}/usuario/all`).toPromise()
+  getUsuarios(id) {
+    return this.http.get(`${ApiUrl}/usuario/all/${id}`).toPromise()
       .then(res => res).catch(err => err.error);
   }
 

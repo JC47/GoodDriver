@@ -9,7 +9,7 @@ const Usuario = require('../models/usuario');
 const Escuela = require('../models/escuela');
 const Regla = require('../models/regla');
 const Consejo = require('../models/consejo');
-const { verificaTokenEscuela,verificaTokenUser,verificaTokenRoot } = require('../middlewares/auth');
+const { verificaTokenEscuela,verificaTokenUser,verificaTokenRoot,verificaTokenEscuela2 } = require('../middlewares/auth');
 
 const app = express();
 
@@ -214,7 +214,8 @@ app.put('/update/:id', [verificaTokenUser], (req, res) => {
         });
     });
 });
-//Borra un consejo
+
+//Borra un usuario
 app.delete('/delete/:id', [verificaTokenEscuela, verificaTokenRoot], (req,res) => {
 
     let id = req.params.id;
@@ -235,10 +236,13 @@ app.delete('/delete/:id', [verificaTokenEscuela, verificaTokenRoot], (req,res) =
 });
 
 //Obtiene todos los usuarios
-app.get('/all', [verificaTokenEscuela, verificaTokenRoot], (req, res) => {
+app.get('/all/:id', [verificaTokenEscuela, verificaTokenEscuela2], (req, res) => {
 
-    Usuario.find({}).populate('cursos', 'nombre').exec((err, usuarios) => {
+    let id = req.params.id;
+
+    Usuario.find({ cursos: { $elemMatch: { $eq: id } } }).populate('cursos', 'nombre').exec((err, usuarios) => {
         if (err != null) {
+            console.log(err);
             return res.status(500).json({
                 ok: false,
                 err

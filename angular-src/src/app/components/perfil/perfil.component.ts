@@ -31,7 +31,7 @@ export class PerfilComponent implements OnInit {
     } else {
       this.escuela = this.aux;
     }
-    this.assingValues()
+    this.assingValues();
   }
 
   assingValues() {

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-usuarios',
@@ -10,6 +11,7 @@ export class UsuariosComponent implements OnInit {
 
   usuarios = [];
   escuela;
+  @ViewChild('modalNew') public modalNew: ModalDirective;
 
   constructor(private usuarioService: UsuarioService) {
     this.escuela = JSON.parse(localStorage.getItem('escuela'));
@@ -23,6 +25,10 @@ export class UsuariosComponent implements OnInit {
     } else {
       console.log(res);
     }
+  }
+
+  showModal() {
+    this.modalNew.show();
   }
 
 }

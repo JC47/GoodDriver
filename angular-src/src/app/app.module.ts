@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AlertModule, ModalModule } from 'ngx-bootstrap';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 // Componentes
 import { AppComponent } from './app.component';
@@ -58,7 +60,10 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     FormsModule,
     ReactiveFormsModule,
     APP_ROUTING,
-    HttpClientModule
+    HttpClientModule,
+    AngularDraggableModule,
+    ModalModule.forRoot(),
+    AlertModule.forRoot(),
   ],
   providers: [
     AuthService,

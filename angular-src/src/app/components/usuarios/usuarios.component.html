@@ -1,8 +1,12 @@
 <div class="container mgb">
-
-  <h2 align="center">
-    Usuarios registrados
-  </h2>
+  
+  <div class="row">
+    <h2 class="center-text">
+      Usuarios registrados
+    </h2>
+    
+    <button ngDraggable class="btn btn-add" (click)="modalNew.show()">Agregar</button>
+  </div>
 
   <hr>
 
@@ -12,7 +16,6 @@
         <th></th>
         <th>Nombre</th>
         <th>Email</th>
-        <th>Contraseña</th>
         <th>Editar</th>
         <th>Eliminar</th>
       </tr>
@@ -23,9 +26,6 @@
         </td>
         <td>{{usuario.nombre}}</td>
         <td>{{usuario.email}}</td>
-        <td>
-          <button class="btn btn-info">Cambiar contraseña</button>
-        </td>
         <td>
           <button class="btn btn-success">Editar</button>
         </td>
@@ -38,4 +38,17 @@
     </tbody>
   </table>
 
+</div>
+
+<div bsModal ngDraggable #modalNew="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title col-12 text-center">Agregar Usuario</h4>
+      </div>
+      <div class="modal-body">
+      </div>
+    </div>
+  </div>
 </div>

@@ -57,3 +57,11 @@ body{
   margin-left: 5%;
   margin-right: 5%;
 }
+
+.table td{
+  vertical-align: middle !important;
+}
+
+.imgSize{
+  height: 10%;
+}

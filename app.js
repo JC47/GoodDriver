@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
+app.use('/uploads', express.static('uploads'));
 app.use(express.static(path.resolve(__dirname, 'public/')));
 
 app.use(require('./routes/index'));

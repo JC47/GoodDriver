@@ -36,6 +36,7 @@ usuarioSchema.methods.toJSON = function () {
   let user = this;
   let userObject = user.toObject();
 
+  userObject.img = `/uploads/usuario/${userObject.img}`;
   delete userObject.password;
 
   return userObject;

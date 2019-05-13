@@ -18,12 +18,20 @@
       </tr>
     </thead>
       <tr *ngFor="let usuario of usuarios">
-        <td>{{usuario.img}}</td>
+        <td>
+          <img [src]="usuario.img | img" class="imgSize">
+        </td>
         <td>{{usuario.nombre}}</td>
         <td>{{usuario.email}}</td>
-        <td><button>Perro</button></td>
-        <td>5</td>
-        <td>6</td>
+        <td>
+          <button class="btn btn-info">Cambiar contraseña</button>
+        </td>
+        <td>
+          <button class="btn btn-success">Editar</button>
+        </td>
+        <td>
+          <button class="btn btn-danger">Eliminar</button>
+        </td>
       </tr>
     <tbody>
 

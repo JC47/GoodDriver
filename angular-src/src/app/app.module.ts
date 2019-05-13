@@ -23,6 +23,8 @@ import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
 // Guards
 import { AuthGuard } from './guards/auth.guard';
 
+// Pipes
+import { ImgPipe } from './pipes/img.pipe';
 
 // Rutas
 import { APP_ROUTING } from './app.routes';
@@ -48,7 +50,8 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     ReglasComponent,
     ConsejosComponent,
     TestsComponent,
-    PerfilComponent
+    PerfilComponent,
+    ImgPipe
   ],
   imports: [
     BrowserModule,

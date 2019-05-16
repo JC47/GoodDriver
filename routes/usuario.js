@@ -199,7 +199,11 @@ app.put('/leave', [verificaTokenUser], (req,res) => {
 app.put('/update/:id', [verificaTokenUser], (req, res) => {
 
     let id = req.params.id;
-    let body = _.pick(req.body, ['nombre','password']);
+    let body = _.pick(req.body, ['nombre','email','password']);
+    if(body.password){
+        let pass = bcrypt.hashSync(body.password, 10);
+        body.password = pass;
+    }
     Usuario.findOneAndUpdate({_id:id}, body, {new:true, runValidators:true}, (err, usuario) => {
         if(err != null){
             return res.status(500).json({

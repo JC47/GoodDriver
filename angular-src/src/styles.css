@@ -74,3 +74,7 @@ body{
   color: #fff !important;
   background-color: firebrick !important;
 }
+
+.controls{
+    text-align: center!important;
+}

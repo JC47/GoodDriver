@@ -61,7 +61,7 @@ app.post('/add', [verificaTokenEscuela, verificaTokenRoot] , (req,res) => {
 app.put('/update/:id', [verificaTokenEscuela, verificaTokenEscuela2], (req, res) => {
 
     let id = req.params.id;
-    let body = _.pick(req.body, ['nombre','direccion','nickname']);
+    let body = _.pick(req.body, ['nombre','direccion','nickname','alumn']);
 
     Escuela.findOneAndUpdate({_id:id}, body, {new:true, runValidators:true}, (err, escuela) => {
         if(err != null){

@@ -35,6 +35,7 @@ app.post('/add', [verificaTokenEscuela, verificaTokenRoot] , (req,res) => {
                 nickname: req.body.nickname,
                 nombre: req.body.nombre,
                 direccion: req.body.direccion,
+                alumn: req.body.alumn,
                 secret: bcrypt.hashSync(buf.toString('hex'), 10),
                 qrcode: data
             });

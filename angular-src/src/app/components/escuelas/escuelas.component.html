@@ -1,3 +1,170 @@
-<p>
-  escuelas works!
-</p>
+<div class="container mgb">
+
+  <div class="row">
+    <h2 class="center-text">
+      Escuelas
+    </h2>
+
+    <button ngDraggable class="btn btn-add" (click)="showNewModal()">Agregar</button>
+  </div>
+
+  <hr>
+
+  <table class="table table-hover table-responsive-sm mgt">
+    <thead class="thead-dark">
+      <tr>
+        <th></th>
+        <th class="text-center">Nombre</th>
+        <th class="text-center">Nickname</th>
+        <th class="text-center">Dirección</th>
+        <th class="text-center">Alumnos restantes</th>
+        <th class="text-center">QR</th>
+        <th colspan="2" class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tr *ngFor="let escuela of escuelas">
+      <th>
+        <img [src]="escuela.img | img" class="imgSize">
+      </th>
+      <td class="text-center">{{escuela.nombre}}</td>
+      <td class="text-center">{{escuela.nickname}}</td>
+      <td class="text-center">{{escuela.direccion}}</td>
+      <td class="text-center">{{escuela.alumn}}</td>
+      <td>
+        <img [src]="escuela.qrcode" class="qrSize center">
+      </td>
+      <td>
+        <button class="btn btn-info" (click)="showEditModal(escuela)">
+          <i class="fa fa-edit" style="cursor:pointer"></i>
+        </button>
+      </td>
+      <td>
+        <button class="btn btn-warning" (click)="showDeleteModal(escuela._id,escuela.nombre)">
+          <i class="fa fa-trash" style="cursor:pointer"></i>
+        </button>
+      </td>
+    </tr>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>
+
+<div bsModal ngDraggable #modalNew="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title col-12 text-center">Agregar Escuela</h4>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="newSchool" (ngSubmit)="addSchool()">
+
+          <div class="form-group">
+            <label>Nombre </label>
+            <input type="text" class="form-control" formControlName="nombre">
+          </div>
+
+          <div class="form-group">
+            <label>Nickname </label>
+            <input type="text" class="form-control" formControlName="nickname">
+          </div>
+
+          <div class="form-group">
+            <label>Dirección </label>
+            <input type="text" class="form-control" formControlName="direccion">
+          </div>
+
+          <div class="form-group">
+            <label>Alumnos restantes </label>
+            <input type="number" class="form-control" formControlName="alumn">
+          </div>
+
+          <div class="controls">
+            <button class="btn btn-outline-info" type="submit">
+              <span *ngIf="!loadingNew">Agregar</span>
+              <span *ngIf="loadingNew">
+                <i class="fa fa-refresh fast-spin"></i>
+              </span>
+            </button>
+            <button type="button" class="btn btn-outline-danger btn-margin" (click)="modalNew.hide()">Cancelar</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal ngDraggable #modalEdit="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title col-12 text-center">Editar Escuela</h4>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="editSchool" (ngSubmit)="updateSchool()">
+
+          <div class="form-group">
+            <label>Nombre </label>
+            <input type="text" class="form-control" formControlName="nombre">
+          </div>
+          
+          <div class="form-group">
+            <label>Nickname </label>
+            <input type="text" class="form-control" formControlName="nickname">
+          </div>
+          
+          <div class="form-group">
+            <label>Dirección </label>
+            <input type="text" class="form-control" formControlName="direccion">
+          </div>
+          
+          <div class="form-group">
+            <label>Alumnos restantes </label>
+            <input type="number" class="form-control" formControlName="alumn">
+          </div>
+
+          <div class="controls">
+            <button class="btn btn-outline-info" type="submit">
+              <span *ngIf="!loadingEdit">Editar</span>
+              <span *ngIf="loadingEdit">
+                <i class="fa fa-refresh fast-spin"></i>
+              </span>
+            </button>
+            <button type="button" class="btn btn-outline-danger btn-margin" (click)="modalEdit.hide()">Cancelar</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal ngDraggable #modalDelete="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title col-12 text-center">¿Estás seguro de eliminar a {{deleteSchool.nombre}}?</h4>
+      </div>
+      <div class="modal-body">
+        <div class="controls">
+          <button class="btn btn-outline-info" (click)="removeSchool()">
+            <span *ngIf="!loadingDelete">Eliminar</span>
+            <span *ngIf="loadingDelete">
+              <i class="fa fa-refresh fast-spin"></i>
+            </span>
+          </button>
+          <button type="button" class="btn btn-outline-danger btn-margin" (click)="modalDelete.hide()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

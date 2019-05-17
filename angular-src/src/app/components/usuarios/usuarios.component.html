@@ -4,20 +4,17 @@
     <h2 class="center-text">
       Usuarios registrados
     </h2>
-    
-    <button ngDraggable class="btn btn-add">Agregar</button>
   </div>
 
   <hr>
 
-  <table class="table table-hover mgt">
+  <table class="table table-hover table-responsive-sm mgt">
     <thead class="thead-dark">
       <tr>
         <th></th>
         <th>Nombre</th>
         <th>Email</th>
-        <th>Editar</th>
-        <th>Eliminar</th>
+        <th colspan="2">Acciones</th>
       </tr>
     </thead>
       <tr *ngFor="let usuario of usuarios">
@@ -27,10 +24,14 @@
         <td>{{usuario.nombre}}</td>
         <td>{{usuario.email}}</td>
         <td>
-          <button class="btn btn-info" (click)="showEditModal(usuario)">Editar</button>
+          <button class="btn btn-info" (click)="showEditModal(usuario)">
+            <i class="fa fa-edit" style="cursor:pointer"></i>
+          </button>
         </td>
         <td>
-          <button class="btn btn-warning" (click)="showDeleteModal(usuario._id,usuario.nombre)">Eliminar</button>
+          <button class="btn btn-warning" (click)="showDeleteModal(usuario._id,usuario.nombre)">
+            <i class="fa fa-trash" style="cursor:pointer"></i>
+          </button>
         </td>
       </tr>
     <tbody>
@@ -45,7 +46,7 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title col-12 text-center">Agregar Usuario</h4>
+        <h4 class="modal-title col-12 text-center">Editar Usuario</h4>
       </div>
       <div class="modal-body">
 

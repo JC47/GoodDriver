@@ -1,3 +1,150 @@
-<p>
-  reglas works!
-</p>
+<div class="container mgb">
+
+  <div class="row">
+    <h2 class="center-text">
+      Reglas
+    </h2>
+
+    <button ngDraggable class="btn btn-add" (click)="showNewModal()">Agregar</button>
+  </div>
+
+  <hr>
+
+  <table class="table table-hover table-responsive-sm mgt">
+    <thead class="thead-dark">
+      <tr>
+        <th>Título</th>
+        <th>Cuerpo</th>
+        <th>Tags</th>
+        <th colspan="2">Acciones</th>
+      </tr>
+    </thead>
+    <tr *ngFor="let regla of reglas">
+      <td>{{regla.titulo}}</td>
+      <td>{{regla.cuerpo}}</td>
+      <td>{{regla.tags}}</td>
+      <td>
+        <button class="btn btn-info" (click)="showEditModal(regla)">
+          <i class="fa fa-edit" style="cursor:pointer"></i>
+        </button>
+      </td>
+      <td>
+        <button class="btn btn-warning" (click)="showDeleteModal(regla._id,regla.titulo)">
+          <i class="fa fa-trash" style="cursor:pointer"></i>
+        </button>
+      </td>
+    </tr>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>
+
+<div bsModal ngDraggable #modalNew="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title col-12 text-center">Agregar Regla</h4>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="newRule" (ngSubmit)="addRule()">
+
+          <div class="form-group">
+            <label>Título </label>
+            <input type="text" class="form-control" formControlName="titulo">
+          </div>
+
+          <div class="form-group">
+            <label>Cuerpo </label>
+            <textarea formControlName="cuerpo" rows="3" class="form-control"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Tags </label>
+            <textarea formControlName="tags" rows="2" class="form-control"></textarea>
+          </div>
+
+          <div class="controls">
+            <button class="btn btn-outline-info" type="submit">
+              <span *ngIf="!loadingNew">Agregar</span>
+              <span *ngIf="loadingNew">
+                <i class="fa fa-refresh fast-spin"></i>
+              </span>
+            </button>
+            <button type="button" class="btn btn-outline-danger btn-margin" (click)="modalNew.hide()">Cancelar</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal ngDraggable #modalEdit="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title col-12 text-center">Editar Regla</h4>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="editRule" (ngSubmit)="updateRule()">
+
+          <div class="form-group">
+            <label>Título </label>
+            <input type="text" class="form-control" formControlName="titulo">
+          </div>
+
+          <div class="form-group">
+            <label>Cuerpo </label>
+            <textarea formControlName="cuerpo" rows="3" class="form-control"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Tags </label>
+            <textarea formControlName="tags" rows="2" class="form-control"></textarea>
+          </div>
+
+          <div class="controls">
+            <button class="btn btn-outline-info" type="submit">
+              <span *ngIf="!loadingEdit">Editar</span>
+              <span *ngIf="loadingEdit">
+                <i class="fa fa-refresh fast-spin"></i>
+              </span>
+            </button>
+            <button type="button" class="btn btn-outline-danger btn-margin" (click)="modalEdit.hide()">Cancelar</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal ngDraggable #modalDelete="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title col-12 text-center">¿Estás seguro de eliminar a {{deleteRule.titulo}}?</h4>
+      </div>
+      <div class="modal-body">
+        <div class="controls">
+          <button class="btn btn-outline-info" (click)="removeRule()">
+            <span *ngIf="!loadingDelete">Eliminar</span>
+            <span *ngIf="loadingDelete">
+              <i class="fa fa-refresh fast-spin"></i>
+            </span>
+          </button>
+          <button type="button" class="btn btn-outline-danger btn-margin" (click)="modalDelete.hide()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

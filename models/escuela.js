@@ -46,8 +46,9 @@ escuelaSchema.methods.toJSON = function () {
   let escuela = this;
   let escuelaObject = escuela.toObject();
 
+  escuelaObject.img = `/uploads/escuela/${escuelaObject.img}`;
+
   delete escuelaObject.secret;
-  delete escuelaObject.qrcode;
 
   return escuelaObject;
 }

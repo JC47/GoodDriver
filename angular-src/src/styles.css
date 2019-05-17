@@ -66,6 +66,10 @@ body{
   height: 10%;
 }
 
+.qrSize{
+  height: 60%;
+}
+
 .center-text{
   margin: 0 auto;
 }

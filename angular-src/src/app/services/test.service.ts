@@ -19,6 +19,16 @@ export class TestService {
       .then(res => res).catch(err => err.error);
   }
 
+  addQuestionTest(id, body) {
+    return this.http.put(`${ApiUrl}/test/addpregunta/${id}`, body).toPromise()
+      .then(res => res).catch(err => err.error);
+  }
+
+  deleteQuestionTest(id, body) {
+    return this.http.put(`${ApiUrl}/test/removepregunta/${id}`, body).toPromise()
+      .then(res => res).catch(err => err.error);
+  }
+
   updateTest(id, body) {
     return this.http.put(`${ApiUrl}/test/update/${id}`, body).toPromise()
       .then(res => res).catch(err => err.error);

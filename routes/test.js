@@ -3,6 +3,7 @@ const _ = require('underscore');
 const express = require('express');
 //Importaciones locales
 const Test = require('../models/test');
+const Pregunta = require('../models/pregunta');
 const { verificaTokenEscuela, verificaTokenEscuela2, verificaTokenRoot } = require('../middlewares/auth');
 
 const app = express();
@@ -12,9 +13,8 @@ app.post('/add', [verificaTokenEscuela, verificaTokenEscuela2], (req,res) => {
 
     let test = new Test({
         idEscuela: req.body.idEscuela,
-        nivel: req.body.nivel,
         nombre: req.body.nombre,
-        preguntas: req.body.preguntas
+        preguntas: []
     });
 
     test.save((err) => {
@@ -32,31 +32,77 @@ app.post('/add', [verificaTokenEscuela, verificaTokenEscuela2], (req,res) => {
 
 });
 
-//Put para editar un test
-app.put('/update/:id', [verificaTokenEscuela, verificaTokenEscuela2], (req, res) => {
+app.put('/addpregunta/:id', [verificaTokenEscuela, verificaTokenEscuela2], (req,res) => {
 
     let id = req.params.id;
-    let body = _.pick(req.body, ['nivel','nombre']);
-    let preguntas_x = req.body.preguntas;
 
-    Test.findOneAndUpdate({_id:id}, body, {new:true, runValidators:true}, (err, test) => {
-        if(err != null){
+    let pregunta = new Pregunta({
+        idTest: id,
+        cuestion: req.body.cuestion,
+        respuestas: req.body.respuestas
+    });
+
+    pregunta.save((err, result) => {
+
+        if (err != null) {
             return res.status(500).json({
                 ok: false,
                 err
             });
         }
 
-        Test.updateOne({_id:id}, { $set: {respuestas:preguntas_x}}, (err2, test2) => {
+        Test.findOneAndUpdate({ _id: id }, { $push: { preguntas: result._id } }, (err2) => {
+
+            if (err2 != null) {
+                return res.status(500).json({
+                    ok: false,
+                    err:err2
+                });
+            }
+
+            res.json({ ok: true });
+
+        });
+    });
+
+});
+
+app.put('/removepregunta/:id', [verificaTokenEscuela, verificaTokenEscuela2], (req, res) => {
+
+    let id = req.params.id;
+    let idPregunta = req.body.id;
+
+    Test.findOne({ _id: id }).exec((err, test) => {
+
+        if (err != null) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        test.preguntas.remove(idPregunta);
+
+        test.save((err2) => {
+
             if (err2 != null) {
                 return res.status(500).json({
                     ok: false,
                     err: err2
                 });
             }
-            res.json({
-                ok: true,
-                test2
+
+            Pregunta.findOneAndRemove({ _id: idPregunta }, (err) => {
+                if (err != null) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    });
+                }
+
+                res.json({
+                    ok: true
+                });
             });
         });
     });
@@ -68,7 +114,9 @@ app.get('/all', [verificaTokenEscuela, verificaTokenEscuela2], (req,res) => {
 
     let idEscuela = req.escuela._id;
 
-    Test.find({idEscuela}).exec((err, tests) => {
+    Test.find({idEscuela})
+    .populate('preguntas', 'cuestion')
+    .exec((err, tests) => {
         if(err != null){
             return res.status(500).json({
                 ok: false,

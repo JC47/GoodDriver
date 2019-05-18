@@ -8,9 +8,6 @@ let testSchema = new Schema({
         ref: 'Escuela',
         required: true
     },
-    nivel: {
-        type: String
-    },
     nombre: {
         type: String,
         required: true,

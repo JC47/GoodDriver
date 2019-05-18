@@ -1,3 +1,177 @@
-<p>
-  tests works!
-</p>
+<div class="container mgb">
+
+  <div class="row">
+    <h2 class="center-text">
+      Tests
+    </h2>
+
+    <button ngDraggable class="btn btn-add" (click)="showNewTestModal()">Agregar</button>
+  </div>
+
+  <hr>
+
+  <div class="accordion mgt" id="accordionTests">
+
+    <div class="card" *ngFor="let test of tests, let i = index">
+
+      <div class="card-header" id="TestHeader{{i}}">
+        <h2 class="mb-0">
+          <button class="btn btn-link collapsed" type="button" data-toggle="collapse" [attr.data-target]="'#collapseThree'+i"
+            aria-expanded="false" aria-controls="collapseThree">
+            {{test.nombre}}
+          </button>
+          <button class="btn btn-warning btn-right" (click)="showDeleteTestModal(test._id, test.nombre)">
+            <i class="fa fa-trash" style="cursor:pointer"></i>
+          </button>
+          <button class="btn btn-info btn-right" (click)="showNewQuestionModal(test._id)">
+            <i class="fa fa-plus" style="cursor:pointer"></i>
+          </button>
+        </h2>
+      </div>
+      <div id="collapseThree{{i}}" class="collapse" aria-labelledby="headingThree" data-parent="#accordionTests">
+        <div class="card-body">
+          <ul>
+            <li *ngFor="let pregunta of test.preguntas">
+              {{pregunta.cuestion}} 
+              <i class="fa fa-trash" style="cursor:pointer" (click)="showDeleteQuestionModal(test._id, pregunta._id , pregunta.cuestion)"></i>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+</div>
+
+<div bsModal ngDraggable #modalDeleteTest="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title col-12 text-center">¿Estás seguro de eliminar a {{deleteTest.nombre}}?</h4>
+      </div>
+      <div class="modal-body">
+        <div class="controls">
+          <button class="btn btn-outline-info" (click)="removeTest()">
+            <span *ngIf="!loadingDeleteTest">Eliminar</span>
+            <span *ngIf="loadingDeleteTest">
+              <i class="fa fa-refresh fast-spin"></i>
+            </span>
+          </button>
+          <button type="button" class="btn btn-outline-danger btn-margin"
+            (click)="modalDeleteTest.hide()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal ngDraggable #modalDeleteQuestion="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title col-12 text-center">¿Estás seguro de eliminar a {{deleteQuestion.cuestion}}?</h4>
+      </div>
+      <div class="modal-body">
+        <div class="controls">
+          <button class="btn btn-outline-info" (click)="removeQuestionTest()">
+            <span *ngIf="!loadingDeleteQuestion">Eliminar</span>
+            <span *ngIf="loadingDeleteQuestion">
+              <i class="fa fa-refresh fast-spin"></i>
+            </span>
+          </button>
+          <button type="button" class="btn btn-outline-danger btn-margin"
+            (click)="modalDeleteQuestion.hide()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal ngDraggable #modalNewQuestion="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title col-12 text-center">Agregar Test</h4>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="newQuestion" (ngSubmit)="addQuestion()">
+
+          <div class="form-group">
+            <label>Pregunta </label>
+            <input type="text" class="form-control" formControlName="cuestion">
+          </div>
+
+          <div class="form-group">
+            <label>Respuesta 1: &nbsp;</label>
+            <label> (correcta) &nbsp;</label><input type="radio" value="Respuesta1" formControlName="correcta">
+            <input type="text" class="form-control" formControlName="respuesta1">
+          </div>
+
+          <div class="form-group">
+            <label>Respuesta 2: &nbsp;</label>
+            <label> (correcta) &nbsp;</label><input type="radio" value="Respuesta2" formControlName="correcta">
+            <input type="text" class="form-control" formControlName="respuesta2">
+          </div>
+
+          <div class="form-group">
+            <label>Respuesta 3: &nbsp;</label>
+            <label> (correcta) &nbsp;</label><input type="radio" value="Respuesta3" formControlName="correcta">
+            <input type="text" class="form-control" formControlName="respuesta3">
+          </div>
+
+          <div class="controls">
+            <button class="btn btn-outline-info" type="submit">
+              <span *ngIf="!loadingNewQuestion">Agregar</span>
+              <span *ngIf="loadingNewQuestion">
+                <i class="fa fa-refresh fast-spin"></i>
+              </span>
+            </button>
+            <button type="button" class="btn btn-outline-danger btn-margin"
+              (click)="modalNewQuestion.hide()">Cancelar</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal ngDraggable #modalNewTest="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title col-12 text-center">Agregar Test</h4>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="newTest" (ngSubmit)="addTest()">
+
+          <div class="form-group">
+            <label>Nombre </label>
+            <input type="text" class="form-control" formControlName="nombre">
+          </div>
+
+          <div class="controls">
+            <button class="btn btn-outline-info" type="submit">
+              <span *ngIf="!loadingNewTest">Agregar</span>
+              <span *ngIf="loadingNewTest">
+                <i class="fa fa-refresh fast-spin"></i>
+              </span>
+            </button>
+            <button type="button" class="btn btn-outline-danger btn-margin"
+              (click)="modalNewTest.hide()">Cancelar</button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

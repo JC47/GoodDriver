@@ -1,0 +1,30 @@
+<ion-header no-border>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Regla</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div class="spin" *ngIf="loading">
+    <ion-spinner name="lines"></ion-spinner>
+  </div>
+
+  <ion-text *ngIf="!loading">
+
+    <h1 class="text-center">{{regla.titulo}}</h1>
+    <hr>
+    <p>
+      {{regla.cuerpo}}
+    </p>
+    <hr>
+    <p>
+      Tags: {{regla.tags}}
+    </p>
+
+  </ion-text>
+
+</ion-content>

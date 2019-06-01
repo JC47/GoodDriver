@@ -1,0 +1,23 @@
+<ion-header no-border>
+  <ion-toolbar color="dark">
+    <ion-title>
+      Tests
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+
+  <div class="spin" *ngIf="loading">
+    <ion-spinner name="lines" color="light"></ion-spinner>
+  </div>
+
+  <ion-list color="dark" *ngIf="!loading">
+    <ion-item *ngFor="let test of tests" detail color="dark" (click)="testDetail(test._id)">
+      <ion-label>
+        {{test.nombre}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

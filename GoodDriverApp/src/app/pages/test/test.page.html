@@ -1,0 +1,40 @@
+<ion-header no-border>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Test</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div class="spin" *ngIf="loading">
+    <ion-spinner name="lines"></ion-spinner>
+  </div>
+
+  <div *ngIf="!loading">
+
+    <ion-text>
+      <h1 class="text-center">{{test.nombre}}</h1>
+    </ion-text>
+
+    <ion-list>
+      <ion-radio-group *ngFor="let pregunta of test.preguntas">
+        <ion-list-header>
+          <ion-label>{{pregunta.cuestion}}</ion-label>
+        </ion-list-header>
+    
+        <ion-item *ngFor="let res of pregunta.respuestas">
+          <ion-label>{{res.respuesta}}</ion-label>
+          <ion-radio [value]="res.respuesta" color="danger"></ion-radio>
+        </ion-item>
+
+      </ion-radio-group>
+    </ion-list>
+
+    <ion-button expand="block" color="danger" (click)="presentAlert()">Calificar</ion-button>
+
+  </div>
+
+</ion-content>

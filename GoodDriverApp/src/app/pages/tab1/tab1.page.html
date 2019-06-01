@@ -1,0 +1,23 @@
+<ion-header no-border>
+  <ion-toolbar color="dark">
+    <ion-title>
+      Inicio
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+
+  <div class="spin" *ngIf="loading">
+    <ion-spinner name="lines" color="light"></ion-spinner>
+  </div>
+  
+  <ion-list color="dark" *ngIf="!loading">
+    <ion-item *ngFor="let regla of reglas" detail color="dark" (click)="reglaDetail(regla._id)">
+      <ion-label>
+        {{regla.titulo}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

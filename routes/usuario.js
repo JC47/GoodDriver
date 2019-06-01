@@ -288,6 +288,34 @@ app.get('/getreglas', [verificaTokenUser], (req,res) => {
     });
 });
 
+app.get('/getregla/:id', [verificaTokenUser], (req, res) => {
+
+    let id = req.params.id;
+
+    Usuario.findOne({ _id: req.usuario._id }).exec((err, usuario) => {
+        if (err != null) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        Regla.findOne({ _id: id }).exec((err2, regla) => {
+            if (err2 != null) {
+                return res.status(500).json({
+                    ok: false,
+                    err2
+                });
+            }
+
+            res.json({
+                ok: true,
+                regla
+            });
+        });
+    });
+});
+
 //Obtiene consejos para el usuario
 app.get('/getconsejos', [verificaTokenUser], (req,res) => {
 
@@ -310,6 +338,34 @@ app.get('/getconsejos', [verificaTokenUser], (req,res) => {
             res.json({
                 ok:true,
                 consejos
+            });
+        });
+    });
+});
+
+app.get('/getconsejo/:id', [verificaTokenUser], (req, res) => {
+
+    let id = req.params.id;
+
+    Usuario.findOne({ _id: req.usuario._id }).exec((err, usuario) => {
+        if (err != null) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        Consejo.findOne({ _id: id }).exec((err2, consejo) => {
+            if (err2 != null) {
+                return res.status(500).json({
+                    ok: false,
+                    err2
+                });
+            }
+
+            res.json({
+                ok: true,
+                consejo
             });
         });
     });
@@ -343,6 +399,34 @@ app.get('/gettests', [verificaTokenUser], (req,res) => {
             res.json({
                 ok:true,
                 tests
+            });
+        });
+    });
+});
+
+app.get('/gettest/:id', [verificaTokenUser], (req, res) => {
+
+    let id = req.params.id;
+
+    Usuario.findOne({ _id: req.usuario._id }).exec((err, usuario) => {
+        if (err != null) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        Test.findOne({ _id: id }).populate('preguntas').exec((err2, test) => {
+            if (err2 != null) {
+                return res.status(500).json({
+                    ok: false,
+                    err2
+                });
+            }
+
+            res.json({
+                ok: true,
+                test
             });
         });
     });
